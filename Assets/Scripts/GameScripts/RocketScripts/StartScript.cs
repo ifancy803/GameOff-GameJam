@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StartScript : MonoBehaviour
 {
-    public float moveSpeed = 5.0f;
+    public float moveSpeed = 20f;
     public float rotationSpeed = 100f; 
     public KeyCode startKey = KeyCode.S;
 
@@ -32,7 +32,7 @@ public class StartScript : MonoBehaviour
     void MoveRocket()
     {
         // 向前移动
-        transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+        transform.Translate(transform.right * (moveSpeed * Time.deltaTime));
         
     }
 }
