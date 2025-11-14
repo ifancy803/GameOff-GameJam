@@ -7,13 +7,14 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
-public class SceneLoadManager : MonoBehaviour
+public class SceneLoadManager : Singleton<SceneLoadManager>
 {
     private AssetReference currentScene;
     public AssetReference gameScene;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         //LoadGameScene();
     }
 
