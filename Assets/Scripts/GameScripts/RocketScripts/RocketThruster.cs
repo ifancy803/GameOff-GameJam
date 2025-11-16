@@ -2,135 +2,75 @@ using UnityEngine;
 
 public class RocketThruster : MonoBehaviour
 {
-    [Header("推力设置")]
-    public float thrustForce = 100f;           // 推力大小
-    public KeyCode thrustKey = KeyCode.Space;  // 推力按键
-    
-    [Header("燃料系统")]
-    public float maxFuel = 100f;              // 最大燃料量
-    public float fuelConsumptionRate = 10f;   // 每秒消耗燃料量
-    public float currentFuel;                 // 当前燃料量
+    [Header("推进设置")]
+    public float thrustPower = 80f;
+    public float thrustTime = 0.1f;
+    public int maxThrusts = 8;
+    public KeyCode thrustKey = KeyCode.Space;
     
     [Header("视觉效果")]
-    public ParticleSystem thrustParticles;    // 推力粒子效果
-    public AudioClip thrustSound;            // 推力音效
+    public ParticleSystem thrustParticle;
+    public float particleDuration = 0.5f;
     
     private Rigidbody2D rb;
-    private AudioSource audioSource;
-    private bool isThrusting = false;
+    private int thrustCount;
+    private bool isThrusting;
+    private ParticleSystem currentParticle;
     
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        audioSource = GetComponent<AudioSource>();
-        currentFuel = maxFuel;  // 初始化燃料
+        thrustCount = maxThrusts;
     }
     
     void Update()
     {
-        HandleThrustInput();
-        UpdateThrustEffects();
+        if (Input.GetKeyDown(thrustKey) && thrustCount > 0 && !isThrusting)
+        {
+            SingleThrust();
+        }
+    }
+    
+    void SingleThrust()
+    {
+        // 消耗次数
+        thrustCount--;
+        isThrusting = true;
+        
+        // 创建粒子效果
+        if (thrustParticle != null)
+        {
+            currentParticle = Instantiate(thrustParticle, transform.position, transform.rotation);
+            currentParticle.transform.SetParent(transform);
+            Destroy(currentParticle.gameObject, particleDuration);
+        }
+        
+        Debug.Log($"推进！剩余次数: {thrustCount}");
+        
+        // 0.1秒后结束推进状态
+        Invoke(nameof(EndThrust), thrustTime);
+    }
+    
+    void EndThrust()
+    {
+        isThrusting = false;
     }
     
     void FixedUpdate()
     {
-        if (isThrusting && currentFuel > 0)
+        if (isThrusting)
         {
-            ApplyThrust();
-            ConsumeFuel();
+            // 短时间施加推力
+            rb.AddForce(transform.right * thrustPower, ForceMode2D.Force);
         }
     }
     
-    void HandleThrustInput()
+    void OnGUI()
     {
-        // 按下按键开始推力
-        if (Input.GetKeyDown(thrustKey) && currentFuel > 0)
-        {
-            StartThrust();
-        }
-        
-        // 松开按键停止推力
-        if (Input.GetKeyUp(thrustKey))
-        {
-            StopThrust();
-        }
-    }
-    
-    void StartThrust()
-    {
-        isThrusting = true;
-        Debug.Log("火箭推力启动！");
-    }
-    
-    void StopThrust()
-    {
-        isThrusting = false;
-        Debug.Log("火箭推力停止");
-    }
-    
-    void ApplyThrust()
-    {
-        // 沿着火箭前方施加推力（使用 Acceleration 模式模拟真实火箭）
-        rb.AddForce(transform.forward * thrustForce, ForceMode2D.Force);
-    }
-    
-    void ConsumeFuel()
-    {
-        // 消耗燃料（基于时间）
-        currentFuel -= fuelConsumptionRate * Time.deltaTime;
-        currentFuel = Mathf.Max(0, currentFuel);  // 确保不为负
-        
-        // 燃料耗尽时自动停止
-        if (currentFuel <= 0)
-        {
-            currentFuel = 0;
-            StopThrust();
-            Debug.Log("燃料耗尽！");
-        }
-    }
-    
-    void UpdateThrustEffects()
-    {
-        // 控制粒子效果
-        if (thrustParticles != null)
-        {
-            if (isThrusting && currentFuel > 0)
-            {
-                if (!thrustParticles.isPlaying)
-                    thrustParticles.Play();
-            }
-            else
-            {
-                if (thrustParticles.isPlaying)
-                    thrustParticles.Stop();
-            }
-        }
-        
-        // 控制音效
-        if (audioSource != null && thrustSound != null)
-        {
-            if (isThrusting && currentFuel > 0)
-            {
-                if (!audioSource.isPlaying)
-                    audioSource.PlayOneShot(thrustSound);
-            }
-            else
-            {
-                audioSource.Stop();
-            }
-        }
-    }
-    
-    // 公共方法：添加燃料
-    public void AddFuel(float amount)
-    {
-        currentFuel = Mathf.Min(maxFuel, currentFuel + amount);
-        Debug.Log($"添加燃料: {amount}, 当前燃料: {currentFuel}");
-    }
-    
-    // 公共方法：获取燃料百分比
-    public float GetFuelPercentage()
-    {
-        return currentFuel / maxFuel;
+        GUILayout.BeginArea(new Rect(10, 10, 250, 120));
+        GUILayout.Label($"🚀 推进次数: {thrustCount}/{maxThrusts}");
+        GUILayout.Label($"状态: {(isThrusting ? "推进中" : "准备就绪")}");
+        GUILayout.Label("按空格键单次推进");
+        GUILayout.EndArea();
     }
 }

@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class StartScript : MonoBehaviour
+public class  RocketLaunch : MonoBehaviour
 {
-    public float moveSpeed = 20f;
-    public float rotationSpeed = 100f; 
+    public float rocketMoveSpeed = 20f;
+    public float rocketRotationSpeed = 100f; 
     public KeyCode startKey = KeyCode.S;
 
-    public bool isMoving = false;
+    public static bool isLaunched = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        isMoving = false;
+        isLaunched = false;
         Debug.Log("按 " + startKey + " 键开始移动火箭");
     }
 
@@ -19,11 +19,11 @@ public class StartScript : MonoBehaviour
     {
         if (Input.GetKeyDown(startKey))
         {
-            isMoving = true;
+            isLaunched = true;
             Debug.Log("Start moving！");
         }
         
-        if (isMoving)
+        if (isLaunched)
         {
             MoveRocket();
         }
@@ -32,7 +32,10 @@ public class StartScript : MonoBehaviour
     void MoveRocket()
     {
         // 向前移动
-        transform.Translate(transform.right * (moveSpeed * Time.deltaTime));
+        transform.Translate(transform.right * (rocketMoveSpeed * Time.deltaTime));
+        
+        
+        
         
     }
 }
