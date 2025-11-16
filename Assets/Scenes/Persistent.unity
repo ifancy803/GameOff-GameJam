@@ -5096,8 +5096,8 @@ RectTransform:
   m_Children:
   - {fileID: 136081296}
   - {fileID: 1160586411}
-  - {fileID: 1461402004}
   - {fileID: 999600658}
+  - {fileID: 1461402004}
   m_Father: {fileID: 1777210656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5817,7 +5817,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2648923078010402092, guid: 27d14b320c9b6354f8da0592c553d721, type: 3}
+  m_Sprite: {fileID: -743131022497453670, guid: 69f8ecafde7a77248a7144bcd625d212, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5845,7 +5845,7 @@ Animator:
   m_GameObject: {fileID: 1461402003}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 183a55c9d5b873a4696c8b3e9620737a, type: 2}
+  m_Controller: {fileID: 9100000, guid: c5595892c46b7b846b3057a5e74fba1c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
