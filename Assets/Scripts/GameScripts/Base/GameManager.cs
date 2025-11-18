@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         Physics2D.gravity = new Vector2(0, 0);
         score = 0;
         gameTime = 0f;
-        RocketLaunch.isLaunched = true;
+        RocketLaunch.isLaunched = false;
         
         // 生成火箭
         SpawnRocket();

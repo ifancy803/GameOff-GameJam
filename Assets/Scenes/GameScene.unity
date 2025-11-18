@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46a46cda9434f2f48aa53964ecc15e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 1000
+  mass: 10000
   gravityRadius: 50
   gravitationalConstant: 6.674
   targetTag: Rocket

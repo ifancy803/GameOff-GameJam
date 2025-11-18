@@ -27,8 +27,8 @@ public class  RocketLaunch : MonoBehaviour
         {
             MoveRocket();
         }
-    }
     
+    }
     void MoveRocket()
     {
         // 向前移动
