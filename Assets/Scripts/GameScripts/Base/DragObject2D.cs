@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DragObject2D : MonoBehaviour
 {
+    
+    
+    
     private Vector3 offset;
     private float zCoordinate;
     private bool isDragging = false;
