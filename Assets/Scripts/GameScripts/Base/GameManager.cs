@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviour
     public float gameTime = 0f;
     public bool isGameRunning = true;
 
-    public SpawnPoint spawnPoint = new SpawnPoint();
+    public SpawnPoint rocketSpawnPoint = new SpawnPoint();
+    public SpawnPoint planetSpawnPoint = new SpawnPoint();
+    
     public static GameManager Instance;
 
     public ObjectEventSO rocketGeneratedEvent;
@@ -68,6 +70,14 @@ public class GameManager : MonoBehaviour
         
         // 生成火箭
         SpawnRocket();
+        
+        // 生成星球
+        SpawnPlanet();
+    }
+
+    void SpawnPlanet()
+    {
+        
     }
     
     void SpawnRocket()
@@ -78,11 +88,11 @@ public class GameManager : MonoBehaviour
             Destroy(currentRocket);
         }
 
-        spawnPoint.position = new Vector3(-45, 0, 0);
-        spawnPoint.rotation = Quaternion.identity;
+        rocketSpawnPoint.position = new Vector3(-45, 0, 0);
+        rocketSpawnPoint.rotation = Quaternion.identity;
         
         // 生成新火箭
-        currentRocket = Instantiate(rocketPrefab, spawnPoint.position, spawnPoint.rotation);
+        currentRocket = Instantiate(rocketPrefab, rocketSpawnPoint.position, rocketSpawnPoint.rotation);
         
         // 广播
         rocketGeneratedEvent.RaiseEvent(currentRocket,this);
@@ -114,10 +124,17 @@ public class GameManager : MonoBehaviour
         isGameRunning = false;
         Debug.Log($"游戏结束！得分: {score}, 时间: {gameTime:F1}秒");
     }
-}
 
-public class SpawnPoint
-{
-    public Vector3 position;
-    public Quaternion rotation;
+
+    public class SpawnPoint
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+    }
+
+
+
+
+
+
 }
